@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Always - 세션 유지 (실시간 원격 로더)
 // @namespace    https://github.com/bundanggame-sys/always
-// @version      1.7
+// @version      1.8
 // @description  최신 content.js 코드를 실시간으로 불러와 즉시 실행하는 바이올렛몽키/템퍼몽키 호환 뼈대 스크립입니다.
 // @match        *://*/*
 // @grant        GM_xmlhttpRequest

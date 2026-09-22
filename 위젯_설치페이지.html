@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBS 시간표 위젯 원클릭 설치</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #334155;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 650px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 26px;
+            color: #0f172a;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        p.subtitle {
+            color: #64748b;
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            word-break: keep-all;
+        }
+        .browser-columns {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .column {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .column:hover {
+            transform: translateY(-2px);
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        .col-title {
+            font-weight: 800;
+            font-size: 18px;
+            color: #1e293b;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 15px;
+            text-align: center;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            margin-bottom: 12px;
+        }
+        .btn-outline {
+            background: white;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+        .btn-outline:hover {
+            background: #eff6ff;
+        }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+        }
+        .step-text {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .warning-text {
+            font-size: 14px;
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 16px;
+            border-radius: 12px;
+            border: 2px dashed #fca5a5;
+            line-height: 1.6;
+            margin-top: 16px;
+            box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1);
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { border-color: #fca5a5; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { border-color: #ef4444; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+            100% { border-color: #fca5a5; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>SBS 시간표 위젯 설치</h1>
+        <p class="subtitle">개강 안내 발송 내역이 전직원 실시간 연동되는<br>스마트 시간표 위젯을 사용 중인 브라우저에 맞게 설치하세요.</p>
+        
+        <div class="browser-columns">
+            <!-- 웨일 사용자 -->
+            <div class="column">
+                <div class="col-title">🐳 네이버 웨일 사용자</div>
+                
+                <div class="step-text">1단계. 필수 프로그램 설치</div>
+                <a href="https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag" target="_blank" class="btn btn-outline">🧩 Violentmonkey 설치</a>
+                
+                <div class="step-text" style="margin-top:20px;">2단계. 위젯 스크립트 적용</div>
+                <a href="https://gist.githubusercontent.com/bundanggame-sys/4cd160590b264d51f4e97a7218ed7fe5/raw/sbs_timetable_widget.user.js" class="btn btn-primary">✨ 웨일용 위젯 설치</a>
+                
+                <div class="warning-text">
+                    <div style="font-size: 16px; font-weight: 900; margin-bottom: 6px;">🚨 필수 권한 허용 방법</div>
+                    우측 상단 퍼즐(🧩) > Violentmonkey 우클릭 ><br>[확장 프로그램 관리] > <span style="background: #fee2e2; padding: 2px 4px; border-radius: 4px; font-weight: 900; color: #b91c1c;">'사용자 스크립트 허용' ON</span>
+                </div>
+            </div>
+
+            <!-- 크롬 사용자 -->
+            <div class="column">
+                <div class="col-title">🌐 구글 크롬 사용자</div>
+                
+                <div class="step-text">1단계. 필수 프로그램 설치</div>
+                <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" class="btn btn-outline">🧩 Tampermonkey 설치</a>
+                
+                <div class="step-text" style="margin-top:20px;">2단계. 위젯 스크립트 적용</div>
+                <a href="https://gist.githubusercontent.com/bundanggame-sys/4cd160590b264d51f4e97a7218ed7fe5/raw/sbs_timetable_widget_chrome.user.js" class="btn btn-primary">✨ 크롬용 위젯 설치</a>
+                
+                <div class="warning-text">
+                    <div style="font-size: 16px; font-weight: 900; margin-bottom: 6px;">🚨 필수 권한 허용 방법</div>
+                    우측 상단 퍼즐(🧩) > Tampermonkey 우클릭 ><br>[확장 프로그램 관리] > <span style="background: #fee2e2; padding: 2px 4px; border-radius: 4px; font-weight: 900; color: #b91c1c;">'사용자 스크립트 허용' ON</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="font-size: 13px; color: #94a3b8; margin-top: 20px;">설치 완료 후 그룹웨어에서 새로고침(F5)을 누르시면 위젯이 나타납니다.</div>
+    </div>
+</body>
+</html>

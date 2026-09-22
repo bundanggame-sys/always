@@ -1,0 +1,8 @@
+const KEEP_ALIVE_INTERVAL = 5 * 60 * 1000;
+function extendSession() {
+    fetch(window.location.href, {
+        method: "GET",
+        credentials: "include"
+    });
+}
+setInterval(extendSession, KEEP_ALIVE_INTERVAL);

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "always",
+  "version": "2.1.3",
+  "description": "다중 세션 유지를 위한 도구",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "always-session@koreagroupware.com",
+      "strict_min_version": "109.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}

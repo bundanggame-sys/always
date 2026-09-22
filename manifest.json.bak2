@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "always",
+  "version": "2.1.1",
+  "description": "다중 세션 유지를 위한 도구",
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["content.css"],
+      "js": ["content.js"]
+    }
+  ]
+}

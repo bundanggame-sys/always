@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Always - 세션 유지 관리</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Always</h1>
+            <p>다중 세션 유지 도구</p>
+        </header>
+
+        <main>
+            <div class="current-site">
+                <span class="label">현재 사이트:</span>
+                <span id="hostname-display" class="hostname">...</span>
+            </div>
+
+            <div class="status-indicator">
+                <div id="status-dot" class="dot inactive"></div>
+                <span id="status-text">비활성화됨</span>
+            </div>
+
+            <button id="toggle-btn" class="primary-btn">
+                <span id="btn-text">이 사이트에서 켜기</span>
+            </button>
+        </main>
+
+        <footer>
+            <h3>등록된 사이트 목록</h3>
+            <ul id="site-list" class="site-list">
+                <!-- 리스트 아이템이 여기에 동적으로 추가됩니다 -->
+            </ul>
+        </footer>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

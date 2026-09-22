@@ -133,10 +133,33 @@ function toggleCurrentSite() {
 }
 
 /**
+ * 유저스크립트 환경에서 CSS 파일이 별도로 로드되지 않아 화면이 깨지거나 투명해지는 현상을 막기 위해
+ * 스크립트 내부에서 직접 필수 스타일을 주입(Inject)합니다.
+ */
+function injectStyles() {
+    if (document.getElementById('always-ext-style')) return;
+    
+    const style = document.createElement('style');
+    style.id = 'always-ext-style';
+    style.textContent = `
+        #always-ext-root { position: fixed; bottom: 24px; right: 24px; z-index: 999999; font-family: 'Inter', sans-serif, 'Malgun Gothic'; }
+        #always-ext-fab { width: 32px; height: 32px; border-radius: 16px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); box-shadow: 0 2px 10px rgba(0, 242, 254, 0.4); color: white; font-size: 14px; font-weight: bold; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(255, 255, 255, 0.2); user-select: none; opacity: 0.85; }
+        #always-ext-fab:hover { transform: scale(1.1); opacity: 1; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.6); }
+        #always-ext-fab.is-active { animation: always-ext-pulse 2s infinite; }
+        @keyframes always-ext-pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(0, 242, 254, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); } }
+        #always-ext-panel { position: absolute; bottom: 45px; right: 0; width: 220px; background: rgba(30, 30, 47, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 16px; color: white; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); display: none; flex-direction: column; gap: 12px; transform-origin: bottom right; animation: always-ext-scaleUp 0.3s ease; }
+        @keyframes always-ext-scaleUp { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    `;
+    document.head.appendChild(style);
+}
+
+/**
  * 화면 우측 하단에 UI(플로팅 아이콘 및 패널)를 항상 주입합니다.
  */
 function renderUI() {
     if (document.getElementById('always-ext-root')) return;
+    
+    injectStyles(); // CSS 스타일을 먼저 주입합니다.
     
     const root = document.createElement('div');
     root.id = 'always-ext-root';
@@ -232,8 +255,9 @@ function init() {
 }
 
 // 스토리지 변경 사항 실시간 감지 (타 탭 동기화용)
-// 구버전 GM_addValueChangeListener 지원
-if (typeof GM_addValueChangeListener !== 'undefined') {
+// 유저스크립트(Tampermonkey, Violentmonkey) 환경인지 100% 감지하는 강력한 플래그
+const isUserscript = (typeof GM_info !== 'undefined') || (typeof GM_getValue !== 'undefined') || (typeof GM !== 'undefined');
+if (isUserscript && typeof GM_addValueChangeListener !== 'undefined') {
     GM_addValueChangeListener('always_sites', (name, oldValue, newValue, remote) => {
         const newSitesArray = newValue || [];
         if (new Set(newSitesArray).has(currentHostname)) startKeepAlive();

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "always",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "다중 세션 유지를 위한 도구",
   "permissions": [
     "storage",

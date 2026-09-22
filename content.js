@@ -237,6 +237,12 @@ function isAllowedBrowser() {
  * 초기화 함수
  */
 function init() {
+    // 최상위 창(Top Window)이 아닌 iframe 내부에서는 실행을 완전 중지합니다.
+    // (그룹웨어 내 엉뚱한 위치에 아이콘이 중복으로 생기는 현상 방지)
+    if (window.top !== window.self) {
+        return;
+    }
+
     // 사내 허가된 브라우저(크롬, 엣지, 웨일)가 아니라면 안내 메시지를 띄우고 즉시 실행을 중지합니다.
     if (!isAllowedBrowser()) {
         console.warn("Always 세션 유지: 사내 정책상 크롬, 엣지, 웨일 브라우저에서만 동작합니다.");

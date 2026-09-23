@@ -237,15 +237,48 @@ function isAllowedBrowser() {
  * 초기화 함수
  */
 function init() {
-    // 최상위 창(Top Window)이 아닌 iframe 내부에서는 실행을 완전 중지합니다.
-    // (그룹웨어 내 엉뚱한 위치에 아이콘이 중복으로 생기는 현상 방지)
-    if (window.top !== window.self) {
-        return;
-    }
-
     // 사내 허가된 브라우저(크롬, 엣지, 웨일)가 아니라면 안내 메시지를 띄우고 즉시 실행을 중지합니다.
     if (!isAllowedBrowser()) {
         console.warn("Always 세션 유지: 사내 정책상 크롬, 엣지, 웨일 브라우저에서만 동작합니다.");
+        return;
+    }
+
+    // DOM이 아직 생성되지 않았다면 잠시 후 다시 실행합니다.
+    if (!document.body) {
+        setTimeout(init, 50);
+        return;
+    }
+
+    // [핵심 로직 변경] frameset 구조의 구형 그룹웨어에서 위젯이 아예 안 뜨는 문제 해결
+    let canRender = false;
+    
+    if (window.top === window.self) {
+        // 최상위 창일 때, 본문이 frameset이면 UI를 붙여도 화면에 보이지 않으므로 렌더링을 중지합니다.
+        if (document.body.tagName.toLowerCase() !== 'frameset') {
+            canRender = true;
+        }
+    } else {
+        // iframe 또는 frame 내부인 경우
+        try {
+            // 부모(top) 창이 frameset인 경우에만 자식 프레임에서 UI 렌더링을 허용합니다.
+            // (일반 사이트에서 의도치 않은 작은 iframe들에 중복으로 아이콘이 뜨는 현상 방지)
+            if (window.top.document.body && window.top.document.body.tagName.toLowerCase() === 'frameset') {
+                // 여러 프레임 중 화면 면적이 넓은 메인 콘텐츠 프레임에만 위젯을 띄웁니다.
+                if (window.innerWidth > 500 && window.innerHeight > 500) {
+                    canRender = true;
+                }
+            }
+        } catch (e) {
+            // 크로스 도메인(CORS) 등으로 부모 창에 접근할 수 없는 경우,
+            // 프레임 크기가 충분히 크면 메인 프레임으로 간주하고 렌더링을 허용합니다.
+            if (window.innerWidth > 800 && window.innerHeight > 600) {
+                canRender = true;
+            }
+        }
+    }
+
+    // 렌더링 조건에 부합하지 않는 프레임(예: 눈에 안 띄는 작은 프레임 등)은 스크립트 실행을 중지합니다.
+    if (!canRender) {
         return;
     }
 
